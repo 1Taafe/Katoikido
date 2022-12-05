@@ -3,6 +3,7 @@ package by.taafe.katoikido
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
@@ -51,44 +52,7 @@ class MainActivity : AppCompatActivity() {
         homeImage.setOnClickListener {
             if(auth.currentUser != null){
                 homeImage.isClickable = false
-                val circularProgressDrawable = CircularProgressDrawable(this)
-                circularProgressDrawable.strokeWidth = 14f
-                circularProgressDrawable.centerRadius = 424f
-                circularProgressDrawable.setColorSchemeColors(Color.parseColor("#FF6200EE"), Color.parseColor("#C700FE"))
-                circularProgressDrawable.start()
-
-                Glide.with(this).load("https://thiscatdoesnotexist.com/")
-                    .listener(object : RequestListener<Drawable?> {
-                        override fun onResourceReady(
-                            resource: Drawable?,
-                            model: Any?,
-                            target: Target<Drawable?>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            homeImage.isClickable = true
-                            return false
-                        }
-
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: Target<Drawable?>?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            homeImage.isClickable = true
-                            Toast.makeText(applicationContext, "Не удалось загрузить котика :( \n Нажмите на картинку, чтобы повторить попытку.", Toast.LENGTH_SHORT).show()
-                            return false
-                        }
-                    })
-                    .placeholder(circularProgressDrawable)
-                    .apply(RequestOptions.circleCropTransform()
-                        .signature(ObjectKey(System.currentTimeMillis())))
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(R.drawable.ic_baseline_catching_pokemon_24)
-                    .into(homeImage)
-
-
+                loadRandomCatImage()
             }
         }
 
@@ -169,43 +133,7 @@ class MainActivity : AppCompatActivity() {
                 editProfileButton.isEnabled = true;
                 helloName.text = auth.currentUser?.displayName
                 welcomeText.text = getString(R.string.welcomeUser);
-
-                val circularProgressDrawable = CircularProgressDrawable(this)
-                circularProgressDrawable.strokeWidth = 14f
-                circularProgressDrawable.centerRadius = 424f
-                circularProgressDrawable.setColorSchemeColors(Color.parseColor("#FF6200EE"), Color.parseColor("#C700FE"))
-                circularProgressDrawable.start()
-
-                Glide.with(this).load("https://thiscatdoesnotexist.com/")
-                    .listener(object : RequestListener<Drawable?> {
-                        override fun onResourceReady(
-                            resource: Drawable?,
-                            model: Any?,
-                            target: Target<Drawable?>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            homeImage.isClickable = true
-                            return false
-                        }
-
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: Target<Drawable?>?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            homeImage.isClickable = true
-                            Toast.makeText(applicationContext, "Не удалось загрузить котика :( \n Нажмите на картинку, чтобы повторить попытку.", Toast.LENGTH_SHORT).show()
-                            return false
-                        }
-                    })
-                    .placeholder(circularProgressDrawable)
-                    .apply(RequestOptions.circleCropTransform()
-                        .signature(ObjectKey(System.currentTimeMillis())))
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(R.drawable.ic_baseline_catching_pokemon_24)
-                    .into(homeImage)
+                loadRandomCatImage()
             }
         }
     }
@@ -222,5 +150,45 @@ class MainActivity : AppCompatActivity() {
         val editProfileIntent = Intent(this, ListActivity::class.java)
         editProfileIntent.flags = FLAG_ACTIVITY_SINGLE_TOP
         startActivity(editProfileIntent)
+    }
+
+    fun loadRandomCatImage(){
+        val circularProgressDrawable = CircularProgressDrawable(this)
+        circularProgressDrawable.strokeWidth = 16f
+        circularProgressDrawable.centerRadius = 422f
+        circularProgressDrawable.strokeCap = Paint.Cap.ROUND
+        circularProgressDrawable.setColorSchemeColors(Color.parseColor("#FF6200EE"), Color.parseColor("#C700FE"))
+        circularProgressDrawable.start()
+
+        Glide.with(this).load("https://thiscatdoesnotexist.com/")
+            .listener(object : RequestListener<Drawable?> {
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable?>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    homeImage.isClickable = true
+                    return false
+                }
+
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable?>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    homeImage.isClickable = true
+                    Toast.makeText(applicationContext, "Не удалось загрузить котика :( \n Нажмите на картинку, чтобы повторить попытку.", Toast.LENGTH_SHORT).show()
+                    return false
+                }
+            })
+            .placeholder(circularProgressDrawable)
+            .apply(RequestOptions.circleCropTransform()
+                .signature(ObjectKey(System.currentTimeMillis())))
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .error(R.drawable.ic_baseline_catching_pokemon_24)
+            .into(homeImage)
     }
 }

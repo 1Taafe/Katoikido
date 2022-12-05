@@ -13,9 +13,7 @@
         <item name="android:statusBarColor">?attr/colorPrimary</item>
 
         <item name="toolbarStyle">@style/Theme.Custom.Toolbar</item>
-
-
-
+        <item name="fontFamily">@font/inter</item>
 
         <!-- Customize your theme here. -->
     </style>
@@ -23,7 +21,6 @@
     <style name="Theme.Custom.Toolbar" parent="Widget.Material3.Toolbar">
         <item name="android:background">@color/purple_500</item>
         <item name="titleTextColor">@color/white</item>
-
     </style>
 
 
