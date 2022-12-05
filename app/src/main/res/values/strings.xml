@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Katoikido</string>
+    <string name="welcomeUnknown">Здесь ты можешь найти своего домашнего любимца, либо помочь людям, у которых они потерялись.\n\nP. S. Katoikidó с греческого &quot;домашний питомец&quot;\n:) </string>
+    <string name="welcomeUser">Здесь ты можешь найти своего домашнего любимца, либо помочь людям, у которых они потерялись.\n\nP. S. Katoikidó с греческого &quot;домашний питомец&quot;\nСнизу можно дождаться случайного котика :) </string>
 </resources>

@@ -43,13 +43,14 @@
     <Button
         android:id="@+id/saveProfileButton"
         android:layout_width="wrap_content"
-        android:layout_height="55dp"
+        android:layout_height="56dp"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="28dp"
         android:onClick="saveProfile"
         android:paddingHorizontal="24dp"
         android:text="Сохранить"
         app:cornerRadius="32dp"
+        app:icon="@drawable/ic_baseline_save_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -72,6 +73,7 @@
         app:counterMaxLength="16">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLength="16" />
