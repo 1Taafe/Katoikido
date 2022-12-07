@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="simple_items">
+        <item>Потеряшки</item>
+        <item>Купить</item>
+        <item>Продать</item>
+        <item>Отдать даром</item>
+    </string-array>
+
+    <string-array name="pets">
+        <item>Кот</item>
+        <item>Собака</item>
+        <item>Рыбка</item>
+        <item>Хомяк</item>
+        <item>Попугай</item>
+        <item>Капибара</item>
+        <item>Другой</item>
+    </string-array>
+</resources>

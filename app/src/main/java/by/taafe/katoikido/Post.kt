@@ -5,25 +5,32 @@ import java.time.format.DateTimeFormatter
 
 class Post() {
 
-    var id: String = "Undefined";
-    var type: String = "Undefined"
-    var title: String = "Undefined"
-    var animalType: String = "Undefined"
-    var animalBreed: String = "Undefined"
-    var postText: String = "Undefined"
-    var ownerPhone: String = "Undefined"
-    var ownerName: String = "Undefined"
+    companion object{
+        const val undefined = "Undefined"
+    }
+
+    var id: String = undefined
+    var type: String = undefined
+    var title: String = undefined
+    var petType: String = undefined
+    var text: String = undefined
+    var ownerPhone: String = undefined
+    var ownerName: String = undefined
     var uploadDate: String = getCurrentDate()
-    var imageUrl : String = "Undefined"
+    var imageUrl : String = undefined
 
     constructor(_id: String, _title: String, _postText: String) : this(){
         id = _id
         title = _title
-        postText = _postText
+        text = _postText
     }
 
     constructor(_id : String) : this(){
         id = _id
+    }
+
+    override fun toString(): String {
+        return id
     }
 
     fun getCurrentDate() : String{

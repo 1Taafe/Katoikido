@@ -6,28 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ListActivity">
 
-    <Button
-        android:id="@+id/saveProfileButton3"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="28dp"
-        android:onClick="OpenAddActivity"
-        android:paddingHorizontal="24dp"
-        android:background="@drawable/ic_baseline_add_circle_24"
-        android:text=""
-        android:textSize="18sp"
-        android:gravity="center|center_vertical"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/phoneInput"
-        style="?attr/textInputOutlinedDenseStyle"
-        android:layout_width="316dp"
+        android:id="@+id/searchInput"
+        style="?attr/textInputFilledStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="0dp"
         android:hint="Поиск"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,11 +27,41 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="409dp"
-        android:layout_height="660dp"
-        android:layout_marginTop="12dp"
+        android:id="@+id/postRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneInput" />
+        app:layout_constraintTop_toBottomOf="@+id/searchInput" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/addPostButton"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/ic_baseline_add_circle_24"
+        android:gravity="center|center_vertical"
+        android:onClick="openAddActivity"
+        android:paddingHorizontal="24dp"
+
+        android:text=""
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+    <ImageView
+        android:id="@+id/listLoader"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        app:layout_constraintBottom_toBottomOf="@+id/postRecyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/postRecyclerView"
+        app:layout_constraintStart_toStartOf="@+id/postRecyclerView"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

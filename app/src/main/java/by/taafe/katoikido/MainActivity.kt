@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        CloudinaryManager.init(this)
     }
 
     public override fun onStart() {
@@ -64,11 +63,10 @@ class MainActivity : AppCompatActivity() {
         homeImage.isClickable = false
         val currentUser = auth.currentUser
         if(currentUser != null){
-            //Toast.makeText(this, "Welcome " + currentUser.displayName, Toast.LENGTH_SHORT).show()
-            updateLoginButton(UI.LogoutState)
+            updateUI(UI.LogoutState)
         }
         else{
-            updateLoginButton(UI.LoginState)
+            updateUI(UI.LoginState)
         }
     }
 
@@ -88,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(editProfileIntent)
                 Toast.makeText(this, "Похоже, что вы здесь впервые", Toast.LENGTH_SHORT).show()
             }
-            updateLoginButton(UI.LogoutState)
+            updateUI(UI.LogoutState)
         } else {
             Toast.makeText(this, "Не удалось авторизоваться", Toast.LENGTH_SHORT).show()
         }
@@ -100,7 +98,7 @@ class MainActivity : AppCompatActivity() {
                 .signOut(this)
                 .addOnCompleteListener {
                     Toast.makeText(this, "Выход выполнен", Toast.LENGTH_SHORT).show()
-                    updateLoginButton(UI.LoginState)
+                    updateUI(UI.LoginState)
                 }
         }
         else{
@@ -119,7 +117,7 @@ class MainActivity : AppCompatActivity() {
         LoginState, LogoutState
     }
 
-    fun updateLoginButton(state: UI){
+    fun updateUI(state: UI){
         when (state) {
             UI.LoginState -> {
                 loginButton.text = "Войти"
@@ -152,7 +150,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(editProfileIntent)
     }
 
-    fun loadRandomCatImage(){
+    private fun loadRandomCatImage(){
         val circularProgressDrawable = CircularProgressDrawable(this)
         circularProgressDrawable.strokeWidth = 16f
         circularProgressDrawable.centerRadius = 422f
@@ -180,7 +178,7 @@ class MainActivity : AppCompatActivity() {
                     isFirstResource: Boolean
                 ): Boolean {
                     homeImage.isClickable = true
-                    Toast.makeText(applicationContext, "Не удалось загрузить котика :( \n Нажмите на картинку, чтобы повторить попытку.", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(applicationContext, "Не удалось загрузить котика :( \n Нажмите на картинку, чтобы повторить попытку.", Toast.LENGTH_SHORT).show()
                     return false
                 }
             })

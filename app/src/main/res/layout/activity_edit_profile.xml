@@ -102,5 +102,12 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <ImageView
+        android:id="@+id/loaderView"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        app:layout_constraintBottom_toBottomOf="@+id/saveProfileButton"
+        app:layout_constraintEnd_toStartOf="@+id/saveProfileButton" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

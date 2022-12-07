@@ -13,6 +13,7 @@
         <item name="android:statusBarColor">@color/fui_linkColor</item>
         <!-- Customize your theme here. -->
         <item name="toolbarStyle">@style/Theme.Custom.Toolbar</item>
+        <item name="fontFamily">@font/exo2</item>
     </style>
 
     <style name="Theme.Custom.Toolbar" parent="Widget.Material3.Toolbar">
