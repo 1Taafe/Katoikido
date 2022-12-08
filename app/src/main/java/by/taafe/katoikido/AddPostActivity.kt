@@ -1,22 +1,18 @@
 package by.taafe.katoikido
 
-import android.app.Activity
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
-import android.graphics.Color
-import android.graphics.Paint
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
@@ -37,20 +33,23 @@ class AddPostActivity : AppCompatActivity() {
     private lateinit var postImage : ImageView
     private var postImagePath = Post.undefined
     lateinit var savePostButton : Button
-    lateinit var infoText : TextView
+    private lateinit var infoText : TextView
 
     private fun openGalleryForImage() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, 100)
+        val i = Intent();
+        i.type = "image/*";
+        i.action = Intent.ACTION_PICK;
+        launchSomeActivity.launch(i);
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == 100){
-            //postImage.setImageURI(data?.data) // handle chosen image
-
-            val selectedImage: Uri? = data?.data
+    private var launchSomeActivity = registerForActivityResult<Intent, ActivityResult>(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode
+            == RESULT_OK
+        ) {
+            val data = result.data
+            val selectedImage = data!!.data
             val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
             val cursor: Cursor? = contentResolver.query(selectedImage!!, filePathColumn, null, null, null)
             cursor?.moveToFirst()
@@ -64,7 +63,6 @@ class AddPostActivity : AppCompatActivity() {
                 .into(postImage)
 
             Toast.makeText(this, postImagePath, Toast.LENGTH_SHORT).show()
-
         }
     }
 
@@ -81,8 +79,33 @@ class AddPostActivity : AppCompatActivity() {
         infoText = findViewById(R.id.infoText)
 
         postImage.setOnClickListener(){
-            openGalleryForImage()
+            if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)){
+                openGalleryForImage()
+            }
+            else{
+                requestPermissionsLauncher.launch(
+                    arrayOf(
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    )
+                )
+            }
+
         }
+    }
+
+    private val requestPermissionsLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            if (permissions.all { it.value }) {
+                openGalleryForImage()
+            } else Toast.makeText(
+                this,
+                "Не удалось получить разрешения.",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
     }
 
     fun AddPost(view: View) {
