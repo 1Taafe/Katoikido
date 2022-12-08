@@ -55,7 +55,8 @@ class ListActivity : AppCompatActivity() {
                 val adapter = PostAdapter(postList, applicationContext)
                 listLoader.isVisible = false
                 postRecyclerView.adapter = adapter
-                Toast.makeText(applicationContext, "Всего объявлений: " + postList.size.toString(), Toast.LENGTH_SHORT).show()
+                //Toast.makeText(applicationContext, "Всего объявлений: " + postList.size.toString(), Toast.LENGTH_SHORT).show()
+                this@ListActivity.title = "Объявления (${postList.size.toString()})"
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

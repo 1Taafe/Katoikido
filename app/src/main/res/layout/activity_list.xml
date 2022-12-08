@@ -17,7 +17,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:startIconContentDescription="phone"
-        app:startIconDrawable="@drawable/ic_baseline_search_24">
+        app:startIconDrawable="@drawable/ic_baseline_search_24"
+        app:endIconMode="clear_text">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -40,16 +41,14 @@
 
     <Button
         android:id="@+id/addPostButton"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/ic_baseline_add_circle_24"
+
         android:gravity="center|center_vertical"
         android:onClick="openAddActivity"
-        android:paddingHorizontal="24dp"
-
-        android:text=""
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

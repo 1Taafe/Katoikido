@@ -55,9 +55,9 @@
         android:id="@+id/helloText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
         android:layout_marginTop="20dp"
         android:text="Добро пожаловать"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,10 +73,11 @@
 
     <TextView
         android:id="@+id/helloName"
-        android:layout_width="321dp"
+        android:layout_width="370dp"
         android:layout_height="72dp"
-        android:layout_marginTop="24dp"
-        android:textSize="48sp"
+        android:layout_marginTop="32dp"
+        android:textAlignment="center"
+        android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

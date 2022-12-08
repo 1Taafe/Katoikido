@@ -1,5 +1,6 @@
 package by.taafe.katoikido
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +32,7 @@ class PostAdapter(private val posts: List<Post>, private val context: Context) :
         return PostViewHolder(itemView)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         Glide.with(context).load("")
             .transition(DrawableTransitionOptions.withCrossFade())
@@ -38,8 +40,8 @@ class PostAdapter(private val posts: List<Post>, private val context: Context) :
             .into(holder.postImageView)
         val post = posts[position]
         holder.postTitleView.text = post.title
-        holder.petTypeView.text = post.petType
-        holder.postTypeView.text = post.type
+        holder.petTypeView.text = "Питомец: " + post.petType
+        holder.postTypeView.text = "Категория: " + post.type
         holder.dateView.text = post.uploadDate
         holder.postOwnerNameView.text = post.ownerName
 
