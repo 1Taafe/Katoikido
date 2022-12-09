@@ -30,7 +30,7 @@ class Post() {
     }
 
     override fun toString(): String {
-        return id
+        return "$title \t $text"
     }
 
     fun getCurrentDate() : String{

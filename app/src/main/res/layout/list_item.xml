@@ -1,67 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingHorizontal="24dp"
-    android:paddingVertical="24dp">
+    android:layout_marginTop="20dp"
+    android:layout_marginHorizontal="10dp"
+    android:checkable="true"
+    android:clickable="true"
+    android:focusable="true"
+    style="?attr/materialCardViewFilledStyle"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:layout_editor_absoluteX="24dp">
 
-
-    <ImageView
-        android:id="@+id/postImageView"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/titleView"
-        android:layout_width="170dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/postImageView"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="20dp">
 
-    <TextView
-        android:id="@+id/typeView"
-        android:layout_width="184dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/postImageView"
-        app:layout_constraintTop_toBottomOf="@+id/titleView" />
 
-    <TextView
-        android:id="@+id/petView"
-        android:layout_width="184dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/postImageView"
-        app:layout_constraintTop_toBottomOf="@+id/typeView" />
+        <ImageView
+            android:id="@+id/postImageView"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/dateView"
-        android:layout_width="184dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/postImageView"
-        app:layout_constraintTop_toBottomOf="@+id/postOwnerName" />
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/postImageView"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/postOwnerName"
-        android:layout_width="184dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/postImageView"
-        app:layout_constraintTop_toBottomOf="@+id/petView" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/typeView"
+            android:layout_width="184dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/postImageView"
+            app:layout_constraintTop_toBottomOf="@+id/titleView" />
+
+        <TextView
+            android:id="@+id/petView"
+            android:layout_width="184dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/postImageView"
+            app:layout_constraintTop_toBottomOf="@+id/typeView" />
+
+        <TextView
+            android:id="@+id/dateView"
+            android:layout_width="184dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/postImageView"
+            app:layout_constraintTop_toBottomOf="@+id/postOwnerName" />
+
+        <TextView
+            android:id="@+id/postOwnerName"
+            android:layout_width="184dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="48dp"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/postImageView"
+            app:layout_constraintTop_toBottomOf="@+id/petView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
+

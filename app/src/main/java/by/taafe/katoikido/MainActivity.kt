@@ -1,8 +1,7 @@
 package by.taafe.katoikido
 
-import android.annotation.SuppressLint
-import android.app.PendingIntent.FLAG_IMMUTABLE
-import android.app.PendingIntent.FLAG_UPDATE_CURRENT
+import android.content.Context
+import kotlinx.coroutines.*
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
 import android.graphics.Color
@@ -30,6 +29,7 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.Job
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var homeImage : ImageView
     lateinit var welcomeText : TextView
     private lateinit var auth: FirebaseAuth
+    private var context = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -153,6 +154,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadRandomCatImage(){
+        val glideClearCacheJob = GlobalScope.launch() {
+            Glide.get(context).clearDiskCache()
+        }
+        glideClearCacheJob.start()
         val circularProgressDrawable = CircularProgressDrawable(this)
         circularProgressDrawable.strokeWidth = 16f
         circularProgressDrawable.centerRadius = 300f

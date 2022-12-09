@@ -6,9 +6,10 @@
         <item name="colorPrimaryVariant">@color/purple_500</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondary">@color/fui_linkColor</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="colorPrimaryContainer">@color/fui_linkColor</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/fui_linkColor</item>
         <!-- Customize your theme here. -->

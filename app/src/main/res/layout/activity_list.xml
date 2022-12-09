@@ -39,20 +39,22 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addPostButton"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        app:tint="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabCustomSize="56dp"
+        android:layout_gravity="bottom|end"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/ic_baseline_add_circle_24"
-
-        android:gravity="center|center_vertical"
+        android:contentDescription="new post"
         android:onClick="openAddActivity"
-        android:textSize="18sp"
+        app:backgroundTintMode="src_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+        app:srcCompat="@drawable/ic_baseline_add_48"
+        tools:ignore="HardcodedText" />
 
     <ImageView
         android:id="@+id/listLoader"
