@@ -1,5 +1,8 @@
 package by.taafe.katoikido
 
+import android.annotation.SuppressLint
+import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
 import android.graphics.Color
@@ -27,7 +30,6 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import org.w3c.dom.Text
 
 
 class MainActivity : AppCompatActivity() {
@@ -153,7 +155,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadRandomCatImage(){
         val circularProgressDrawable = CircularProgressDrawable(this)
         circularProgressDrawable.strokeWidth = 16f
-        circularProgressDrawable.centerRadius = 422f
+        circularProgressDrawable.centerRadius = 300f
         circularProgressDrawable.strokeCap = Paint.Cap.ROUND
         circularProgressDrawable.setColorSchemeColors(Color.parseColor("#FF6200EE"), Color.parseColor("#C700FE"))
         circularProgressDrawable.start()

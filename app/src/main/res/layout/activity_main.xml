@@ -9,46 +9,44 @@
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="64dp"
-        android:layout_marginEnd="24dp"
         android:layout_marginBottom="28dp"
         android:onClick="LoginClick"
-        android:paddingHorizontal="24dp"
+        android:paddingHorizontal="28dp"
         android:text="Logout"
         android:textSize="14sp"
         app:cornerRadius="32dp"
         app:icon="@drawable/ic_baseline_exit_to_app_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/ListActivityButton" />
 
     <Button
         android:id="@+id/editProfileButton"
-        android:layout_width="170dp"
+        android:layout_width="wrap_content"
         android:layout_height="64dp"
-        android:layout_marginStart="24dp"
         android:layout_marginBottom="28dp"
         android:onClick="EditProfileClick"
-        android:paddingHorizontal="24dp"
+        android:paddingHorizontal="28dp"
         android:text="Изменить"
         android:textSize="14sp"
         app:cornerRadius="32dp"
         app:icon="@drawable/ic_baseline_account_circle_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/ListActivityButton" />
 
     <ImageView
         android:id="@+id/homeImageView"
-        android:layout_width="320dp"
-        android:layout_height="320dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginBottom="36dp"
         android:clickable="false"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/ListActivityButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeText"
         app:srcCompat="@drawable/ic_baseline_catching_pokemon_24" />
 
     <TextView
@@ -84,7 +82,7 @@
 
     <Button
         android:id="@+id/ListActivityButton"
-        android:layout_width="350dp"
+        android:layout_width="320dp"
         android:layout_height="64dp"
         android:layout_marginBottom="100dp"
         android:onClick="ListActivityClick"
