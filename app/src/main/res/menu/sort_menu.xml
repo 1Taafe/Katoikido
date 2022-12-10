@@ -1,7 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/sortByDateDesc"
-        android:title="По дате (сначала новые)" />
-    <item android:id="@+id/sortByDateAsc"
-        android:title="По дате (сначала старые)" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <item
+            android:id="@+id/sortTitle"
+            android:title="Группы">
+            <menu>
+                <group android:id="@+id/sortGroup1">
+                <item android:id="@+id/sortAllPosts"
+                    android:title="Все объявления"
+                    android:checkable="true"
+                    />
+                <item android:id="@+id/sortMyPosts"
+                    android:title="Мои объявления"
+                    android:checkable="true"
+                    />
+                </group>
+            </menu>
+        </item>
+
+        <item
+            android:id="@+id/sortCategoryTitle"
+            android:title="Питомцы"
+            >
+            <menu>
+                <group android:id="@+id/sortGroup2">
+                <item android:id="@+id/sortAllPets"
+                    android:title="Все"
+                    android:checkable="true"
+                    />
+                <item android:id="@+id/sortCatPets"
+                    android:title="Кот"
+                    android:checkable="true"
+                    />
+                <item android:id="@+id/sortDogPets"
+                    android:title="Собака"
+                    android:checkable="true"
+                    />
+                <item android:id="@+id/sortFishPets"
+                    android:title="Рыбка"
+                    android:checkable="true"
+                    />
+                <item android:id="@+id/sortHamsterPets"
+                    android:title="Хомяк"
+                    android:checkable="true"
+                    />
+                <item android:id="@+id/sortParrotPets"
+                    android:title="Попугай"
+                    android:checkable="true"
+                    />
+                <item android:id="@+id/sortCapybaraPets"
+                    android:title="Капибара"
+                    android:checkable="true"
+                    />
+                <item android:id="@+id/sortOtherPets"
+                    android:title="Другие"
+                    android:checkable="true"
+                    />
+                </group>
+            </menu>
+        </item>
+
+
 </menu>

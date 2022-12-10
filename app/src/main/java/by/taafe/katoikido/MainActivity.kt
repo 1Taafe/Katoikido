@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
@@ -154,18 +155,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadRandomCatImage(){
-        val glideClearCacheJob = GlobalScope.launch() {
-            Glide.get(context).clearDiskCache()
-        }
-        glideClearCacheJob.start()
-        val circularProgressDrawable = CircularProgressDrawable(this)
-        circularProgressDrawable.strokeWidth = 16f
-        circularProgressDrawable.centerRadius = 300f
-        circularProgressDrawable.strokeCap = Paint.Cap.ROUND
-        circularProgressDrawable.setColorSchemeColors(Color.parseColor("#FF6200EE"), Color.parseColor("#C700FE"))
-        circularProgressDrawable.start()
-
         Glide.with(this).load("https://thiscatdoesnotexist.com/")
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .listener(object : RequestListener<Drawable?> {
                 override fun onResourceReady(
                     resource: Drawable?,
@@ -189,7 +181,7 @@ class MainActivity : AppCompatActivity() {
                     return false
                 }
             })
-            .placeholder(circularProgressDrawable)
+            .placeholder(Loader.create(this, 300f, 16f))
             .apply(RequestOptions.circleCropTransform()
                 .signature(ObjectKey(System.currentTimeMillis())))
             .transition(DrawableTransitionOptions.withCrossFade())
