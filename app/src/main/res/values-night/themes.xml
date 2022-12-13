@@ -15,6 +15,7 @@
         <!-- Customize your theme here. -->
         <item name="toolbarStyle">@style/Theme.Custom.Toolbar</item>
         <item name="fontFamily">@font/exo2</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.Material3.MaterialAlertDialog.Centered</item>
     </style>
 
     <style name="Theme.Custom.Toolbar" parent="Widget.Material3.Toolbar">

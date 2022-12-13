@@ -30,7 +30,6 @@ import com.google.firebase.ktx.Firebase
 class ListActivity : AppCompatActivity() {
 
     val postList = ArrayList<Post>()
-    val searchPostList = ArrayList<Post>()
     lateinit var postRecyclerView: RecyclerView
     lateinit var listLoader: ImageView
     lateinit var addPostButton: FloatingActionButton
@@ -61,48 +60,34 @@ class ListActivity : AppCompatActivity() {
             val groupId: Int = menuItem.groupId
             if (groupId == R.id.sortGroup1) {
                 if (currentPostsMenuItem != null) {
-                    currentPostsMenuItem.setChecked(false)
+                    currentPostsMenuItem.isChecked = false
                 }
                 currentPostsMenuItem = menuItem
             } else if (groupId == R.id.sortGroup2) {
                 if (currentPetsMenuItem != null) {
-                    currentPetsMenuItem.setChecked(false)
+                    currentPetsMenuItem.isChecked = false
                 }
                 currentPetsMenuItem = menuItem
             }
             menuItem.isChecked = true
 
-            searchPostList.clear()
-            for (post in postList){
-                searchPostList.add(post)
-            }
-
             val id: Int = menuItem.itemId
             when(id){
                 R.id.sortAllPosts -> {
-                    val adapter = PostAdapter(searchPostList, applicationContext)
-                    postRecyclerView.adapter = adapter
-                    //this@ListActivity.title = "Объявления (${postList.size})"
-                    doSearch(searchInput.editText?.text.toString(), postList)
+                    currentPostsMenuItem = menuItem
                 }
                 R.id.sortMyPosts -> {
-
-                    for (post in postList){
-                        if(post.ownerPhone != currentUser?.phoneNumber){
-                            searchPostList.remove(post)
-                        }
-                    }
-                    val adapter = PostAdapter(searchPostList, applicationContext)
-                    postRecyclerView.adapter = adapter
-                    //this@ListActivity.title = "Объявления (${searchPostList.size})"
-                    doSearch(searchInput.editText?.text.toString(), searchPostList)
+                    currentPostsMenuItem = menuItem
+                }
+                else -> {
+                    currentPetsMenuItem = menuItem
                 }
             }
 
-            // ... some code
-            //val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
+            doSearch()
+
             //drawer.closeDrawer(GravityCompat.START)
-            false // IMPORTANT! NOT TRUE!
+            false
         }
 
         currentPostsMenuItem = sortView.menu.findItem(R.id.sortAllPosts)
@@ -110,8 +95,8 @@ class ListActivity : AppCompatActivity() {
         currentPetsMenuItem = sortView.menu.findItem(R.id.sortAllPets)
         currentPetsMenuItem.isChecked = true
 
-        searchInput.editText?.doOnTextChanged { inputText, _, _, _ ->
-            doSearch(inputText.toString(), postList)
+        searchInput.editText?.doOnTextChanged { _, _, _, _ ->
+            doSearch()
         }
 
         addPostButton.isEnabled = false
@@ -129,10 +114,8 @@ class ListActivity : AppCompatActivity() {
                     postList.add(post)
                 }
                 postList.reverse()
-                val adapter = PostAdapter(postList, applicationContext)
+                doSearch()
                 listLoader.isVisible = false
-                postRecyclerView.adapter = adapter
-                this@ListActivity.title = "Объявления (${postList.size})"
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -143,16 +126,66 @@ class ListActivity : AppCompatActivity() {
 
     }
 
-    fun doSearch(inputText: String, posts: ArrayList<Post>){
-        val searchPostList = ArrayList<Post>()
-        for (post in posts){
+    fun doSearch(){
+
+        val inputText = searchInput.editText?.text.toString()
+        val filterPostList = ArrayList<Post>()
+        for (post in postList){
             if(post.toString().contains(inputText, true)){
-                searchPostList.add(post)
+                filterPostList.add(post)
             }
         }
-        val adapter = PostAdapter(searchPostList, applicationContext)
+
+        when(currentPostsMenuItem.itemId){
+            R.id.sortAllPosts -> {
+
+            }
+            R.id.sortMyPosts -> {
+                filterPostList.removeIf { post -> post.ownerPhone != currentUser?.phoneNumber}
+            }
+
+        }
+
+        when(currentPetsMenuItem.itemId){
+            R.id.sortAllPets -> {
+
+            }
+            R.id.sortCapybaraPets -> {
+                filterPostList.removeIf {post -> post.petType != "Капибара"}
+            }
+            R.id.sortCatPets -> {
+                filterPostList.removeIf {post -> post.petType != "Кот"}
+            }
+            R.id.sortDogPets -> {
+                filterPostList.removeIf {post -> post.petType != "Собака"}
+            }
+            R.id.sortHamsterPets -> {
+                filterPostList.removeIf {post -> post.petType != "Хомяк"}
+            }
+            R.id.sortParrotPets -> {
+                filterPostList.removeIf {post -> post.petType != "Попугай"}
+            }
+            R.id.sortFishPets -> {
+                filterPostList.removeIf {post -> post.petType != "Рыбка"}
+            }
+            R.id.sortOtherPets -> {
+                filterPostList.removeIf {post -> post.petType != "Другой"}
+            }
+        }
+
+        val adapter = PostAdapter(filterPostList, this)
         postRecyclerView.adapter = adapter
-        this@ListActivity.title = "Объявления (${searchPostList.size})"
+        this@ListActivity.title = "Объявления (${filterPostList.size})"
+
+//        val searchPostList = ArrayList<Post>()
+//        for (post in posts){
+//            if(post.toString().contains(inputText, true)){
+//                searchPostList.add(post)
+//            }
+//        }
+//        val adapter = PostAdapter(searchPostList, applicationContext)
+//        postRecyclerView.adapter = adapter
+//        this@ListActivity.title = "Объявления (${searchPostList.size})"
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -5,12 +5,18 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
@@ -24,7 +30,12 @@ class PostAdapter(private val posts: List<Post>, private val context: Context) :
         val postTitleView: TextView = itemView.findViewById(R.id.titleView)
         val dateView: TextView = itemView.findViewById(R.id.dateView)
         val postOwnerNameView: TextView = itemView.findViewById(R.id.postOwnerName)
+        val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
+        val cardView: CardView = itemView.findViewById(R.id.postCard)
     }
+
+    private val currentUser = FirebaseAuth.getInstance().currentUser
+    val postsReference = Firebase.database("https://katoikido-default-rtdb.europe-west1.firebasedatabase.app/").reference.child("posts")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -45,7 +56,50 @@ class PostAdapter(private val posts: List<Post>, private val context: Context) :
         holder.dateView.text = post.uploadDate
         holder.postOwnerNameView.text = post.ownerName
 
+        holder.cardView.setOnClickListener(){
+            MaterialAlertDialogBuilder(context)
+                .setIcon(R.drawable.ic_baseline_article_24)
+                .setTitle(post.title)
+                .setMessage(post.text)
+                .setNeutralButton("Закрыть"){ dialog, which ->
+                }
+                .setPositiveButton("Написать"){ dialog, which ->
+
+                }
+                .show()
+        }
+
         val storageReference = Firebase.storage.reference.child(post.imageUrl)
+
+        if(currentUser?.phoneNumber == post.ownerPhone){
+            holder.deleteButton.isVisible = true
+            holder.deleteButton.setOnClickListener {
+                val postRef = postsReference.child(post.id)
+                MaterialAlertDialogBuilder(context)
+                    .setTitle("Удаление")
+                    .setIcon(R.drawable.ic_baseline_delete_forever_24)
+                    .setMessage("Вы уверены, что хотите удалить объявление?")
+                    .setNegativeButton("Отмена") { dialog, which ->
+                        // Respond to negative button press
+                    }
+                    .setPositiveButton("Удалить") { dialog, which ->
+                        storageReference.delete().addOnSuccessListener {
+                            postRef.removeValue()
+                            MaterialAlertDialogBuilder(context)
+                                .setTitle("Удаление")
+                                .setMessage("Объявление успешно удалено без возможности восстановления")
+                                .setPositiveButton("Ок"){ dialog, which ->
+
+                                }
+                                .show()
+                        }.addOnFailureListener {
+                            // Uh-oh, an error occurred!
+                        }
+
+                    }
+                    .show()
+            }
+        }
 
         if(post.imageUrl == Post.undefined){
             Glide.with(context)
