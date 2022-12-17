@@ -2,12 +2,14 @@ package by.taafe.katoikido
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -64,6 +66,15 @@ class PostAdapter(private val posts: List<Post>, private val context: Context) :
                 .setNeutralButton("Закрыть"){ dialog, which ->
                 }
                 .setPositiveButton("Написать"){ dialog, which ->
+                    if(currentUser?.phoneNumber == post.ownerPhone){
+                        Toast.makeText(context, "Вы не можете писать самому себе!", Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        val messageActivityIntent = Intent(context, MessageActivity::class.java)
+                        messageActivityIntent.putExtra("sendTo", post.ownerName)
+                        messageActivityIntent.putExtra("sendToPhone", post.ownerPhone)
+                        context.startActivity(messageActivityIntent)
+                    }
 
                 }
                 .show()

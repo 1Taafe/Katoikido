@@ -33,7 +33,7 @@ class Post() {
         return "$title \t $text"
     }
 
-    fun getCurrentDate() : String{
+    private fun getCurrentDate() : String{
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
         return LocalDateTime.now().format(formatter)
     }
