@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var loginButton: Button
     private lateinit var editProfileButton : Button
     private lateinit var helloName : TextView
+    private lateinit var chatActivityButton: Button
     lateinit var homeImage : ImageView
     lateinit var welcomeText : TextView
     private lateinit var auth: FirebaseAuth
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         helloName = findViewById(R.id.helloName)
         homeImage = findViewById(R.id.homeImageView)
         welcomeText = findViewById(R.id.welcomeText)
+        chatActivityButton = findViewById(R.id.chatActivityButton)
 
         homeImage.setOnClickListener {
             if(auth.currentUser != null){
@@ -119,14 +121,16 @@ class MainActivity : AppCompatActivity() {
         when (state) {
             UI.LoginState -> {
                 loginButton.text = "Войти"
-                editProfileButton.isEnabled = false;
+                editProfileButton.isEnabled = false
                 helloName.text = "Незнакомец"
                 homeImage.setImageResource(R.drawable.ic_baseline_catching_pokemon_24)
                 welcomeText.text = getString(R.string.welcomeUnknown);
+                chatActivityButton.isEnabled = false
             }
             UI.LogoutState -> {
                 loginButton.text = "Выйти"
-                editProfileButton.isEnabled = true;
+                editProfileButton.isEnabled = true
+                chatActivityButton.isEnabled = true
                 helloName.text = auth.currentUser?.displayName
                 welcomeText.text = getString(R.string.welcomeUser);
                 loadRandomCatImage()
@@ -181,5 +185,11 @@ class MainActivity : AppCompatActivity() {
             .transition(DrawableTransitionOptions.withCrossFade())
             .error(R.drawable.ic_baseline_catching_pokemon_24)
             .into(homeImage)
+    }
+
+    fun chatActivityClick(view: View) {
+        val editProfileIntent = Intent(this, ChatActivity::class.java)
+        editProfileIntent.flags = FLAG_ACTIVITY_SINGLE_TOP
+        startActivity(editProfileIntent)
     }
 }

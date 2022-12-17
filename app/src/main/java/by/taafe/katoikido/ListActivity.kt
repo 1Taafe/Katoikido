@@ -115,7 +115,7 @@ class ListActivity : AppCompatActivity() {
                 }
                 postList.reverse()
                 doSearch()
-                listLoader.isVisible = false
+                listLoader.visibility = View.GONE
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

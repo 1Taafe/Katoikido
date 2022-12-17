@@ -2,6 +2,7 @@ package by.taafe.katoikido
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,7 @@ class ChatAdapter(private val chats: List<Chat>, private val context: Context) :
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val chatTitle: TextView = itemView.findViewById(R.id.chatTitle)
         val chatImage: ImageView = itemView.findViewById(R.id.chatImage)
+        val chatCard: CardView = itemView.findViewById(R.id.chatCard)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -46,7 +48,15 @@ class ChatAdapter(private val chats: List<Chat>, private val context: Context) :
         val chat = chats[position]
 
         val phoneTo = "+" + (chat.id.toLong() - currentUser.phoneNumber.toString().replace("+", "").toLong())
-        holder.chatTitle.text = chat.members[phoneTo]
+        val phoneToName = chat.members[phoneTo]
+        holder.chatTitle.text = phoneToName
+
+        holder.chatCard.setOnClickListener{
+            val messageActivityIntent = Intent(context, MessageActivity::class.java)
+            messageActivityIntent.putExtra("sendTo", phoneToName)
+            messageActivityIntent.putExtra("sendToPhone", phoneTo)
+            context.startActivity(messageActivityIntent)
+        }
 
     }
 

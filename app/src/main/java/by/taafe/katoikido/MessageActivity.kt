@@ -3,11 +3,13 @@ package by.taafe.katoikido
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import android.util.TypedValue
+import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -17,12 +19,14 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 
+
 class MessageActivity : AppCompatActivity() {
 
     private lateinit var sendToPhoneNumber: String
     private lateinit var sendToName: String
     private lateinit var messageRecyclerView: RecyclerView
     private lateinit var messageInput : TextInputLayout
+    lateinit var listLoader: ImageView
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val messageList = ArrayList<Message>()
     private val context : Context = this
@@ -34,6 +38,9 @@ class MessageActivity : AppCompatActivity() {
         messageRecyclerView = findViewById(R.id.messageRecyclerView)
         messageRecyclerView.layoutManager = LinearLayoutManager(this)
         messageInput = findViewById(R.id.messageInput)
+        listLoader = findViewById(R.id.listLoader)
+
+        Glide.with(this).load("").error(Loader.create(this, 86f, 12f)).into(listLoader)
 
         val arguments = intent.extras
         if(arguments != null){
@@ -60,6 +67,9 @@ class MessageActivity : AppCompatActivity() {
 
                 val adapter = MessageAdapter(messageList, context)
                 messageRecyclerView.adapter = adapter
+                listLoader.visibility = View.GONE
+                messageRecyclerView.smoothScrollToPosition(messageRecyclerView.adapter!!.itemCount);
+
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

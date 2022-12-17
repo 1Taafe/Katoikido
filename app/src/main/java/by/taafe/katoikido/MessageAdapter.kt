@@ -2,6 +2,8 @@ package by.taafe.katoikido
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,12 +55,20 @@ class MessageAdapter(private val messages: List<Message>, private val context: C
         val params = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         val dpRatio = context.resources.displayMetrics.density
 
-        if(currentUser.phoneNumber == message.phone ){
+        if(currentUser.phoneNumber == message.phone){
             params.leftMargin = (96 * dpRatio).toInt()
             params.rightMargin = (8 * dpRatio).toInt()
             params.topMargin = (10 * dpRatio).toInt()
             params.bottomMargin = (10 * dpRatio).toInt()
             holder.messageCard.layoutParams = params
+
+            val typedValue = TypedValue()
+            context.theme.resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true)
+            val color = typedValue.data
+            holder.messageCard.setCardBackgroundColor(color)
+            holder.displaName.setTextColor(Color.WHITE)
+            holder.messageView.setTextColor(Color.WHITE)
+            holder.dateView.setTextColor(Color.WHITE)
         }
         else{
             params.leftMargin = (8 * dpRatio).toInt()
@@ -67,7 +77,6 @@ class MessageAdapter(private val messages: List<Message>, private val context: C
             params.bottomMargin = (10 * dpRatio).toInt()
             holder.messageCard.layoutParams = params
         }
-
 
     }
 

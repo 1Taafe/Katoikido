@@ -19,7 +19,7 @@
         app:cornerRadius="32dp"
         app:icon="@drawable/ic_baseline_exit_to_app_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/ListActivityButton" />
+        app:layout_constraintEnd_toEndOf="@+id/listActivityButton" />
 
     <Button
         android:id="@+id/editProfileButton"
@@ -33,7 +33,7 @@
         app:cornerRadius="32dp"
         app:icon="@drawable/ic_baseline_account_circle_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/ListActivityButton" />
+        app:layout_constraintStart_toStartOf="@+id/listActivityButton" />
 
     <ImageView
         android:id="@+id/homeImageView"
@@ -42,7 +42,7 @@
         android:layout_marginTop="36dp"
         android:layout_marginBottom="36dp"
         android:clickable="false"
-        app:layout_constraintBottom_toTopOf="@+id/ListActivityButton"
+        app:layout_constraintBottom_toTopOf="@+id/listActivityButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +62,7 @@
     <TextView
         android:id="@+id/welcomeText"
         android:layout_width="344dp"
-        android:layout_height="104dp"
+        android:layout_height="54dp"
         android:layout_marginTop="96dp"
         android:text="Здесь ты можешь найти своего домашнего любимца, либо помочь людям, у которых они потерялись.\nP. S. Katoikidó с греческого &quot;домашний питомец&quot;\n:) "
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,20 +81,35 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/ListActivityButton"
+        android:id="@+id/listActivityButton"
         android:layout_width="320dp"
         android:layout_height="64dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="8dp"
         android:onClick="ListActivityClick"
         android:paddingHorizontal="36dp"
         android:text="Перейти к объявлениям"
         app:cornerRadius="32dp"
         app:icon="@drawable/ic_baseline_receipt_24"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/chatActivityButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:strokeColor="#C700FE"
         app:strokeWidth="30dp" />
+
+    <Button
+        android:id="@+id/chatActivityButton"
+        android:layout_width="320dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="chatActivityClick"
+        android:paddingHorizontal="36dp"
+        android:text="Чаты"
+        app:cornerRadius="32dp"
+        app:icon="@drawable/ic_baseline_question_answer_24"
+        app:layout_constraintBottom_toTopOf="@+id/editProfileButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
