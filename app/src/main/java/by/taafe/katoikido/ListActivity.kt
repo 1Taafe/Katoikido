@@ -79,6 +79,9 @@ class ListActivity : AppCompatActivity() {
                 R.id.sortMyPosts -> {
                     currentPostsMenuItem = menuItem
                 }
+                R.id.sortFavPosts -> {
+                    currentPostsMenuItem = menuItem
+                }
                 else -> {
                     currentPetsMenuItem = menuItem
                 }

@@ -15,6 +15,9 @@
                     android:title="Мои объявления"
                     android:checkable="true"
                     />
+                    <item android:id="@+id/sortFavPosts"
+                        android:title="Избранное"
+                        android:checkable="true"/>
                 </group>
             </menu>
         </item>

@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.divider.MaterialDivider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -36,6 +37,7 @@ class MessageAdapter(private val messages: List<Message>, private val context: C
         val messageView: TextView = itemView.findViewById(R.id.messageView)
         val dateView: TextView = itemView.findViewById(R.id.dateView)
         val messageCard : CardView = itemView.findViewById(R.id.messageCard)
+        val messageDivider : MaterialDivider = itemView.findViewById(R.id.messageDivider)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -69,6 +71,8 @@ class MessageAdapter(private val messages: List<Message>, private val context: C
             holder.displaName.setTextColor(Color.WHITE)
             holder.messageView.setTextColor(Color.WHITE)
             holder.dateView.setTextColor(Color.WHITE)
+
+            holder.messageDivider.dividerColor = Color.WHITE
         }
         else{
             params.leftMargin = (8 * dpRatio).toInt()

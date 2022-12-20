@@ -33,6 +33,7 @@ class PostAdapter(private val posts: List<Post>, private val context: Context) :
         val dateView: TextView = itemView.findViewById(R.id.dateView)
         val postOwnerNameView: TextView = itemView.findViewById(R.id.postOwnerName)
         val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
+        val editButton: Button = itemView.findViewById(R.id.editButton)
         val cardView: CardView = itemView.findViewById(R.id.postCard)
     }
 
@@ -59,30 +60,49 @@ class PostAdapter(private val posts: List<Post>, private val context: Context) :
         holder.postOwnerNameView.text = post.ownerName
 
         holder.cardView.setOnClickListener(){
-            MaterialAlertDialogBuilder(context)
-                .setIcon(R.drawable.ic_baseline_article_24)
-                .setTitle(post.title)
-                .setMessage(post.text)
-                .setNeutralButton("Закрыть"){ dialog, which ->
-                }
-                .setPositiveButton("Написать"){ dialog, which ->
-                    if(currentUser?.phoneNumber == post.ownerPhone){
-                        Toast.makeText(context, "Вы не можете писать самому себе!", Toast.LENGTH_SHORT).show()
+            if(currentUser != null){
+                MaterialAlertDialogBuilder(context)
+                    .setIcon(R.drawable.ic_baseline_article_24)
+                    .setTitle(post.title)
+                    .setMessage(post.text)
+                    .setNeutralButton("Закрыть"){ dialog, which ->
                     }
-                    else{
-                        val messageActivityIntent = Intent(context, MessageActivity::class.java)
-                        messageActivityIntent.putExtra("sendTo", post.ownerName)
-                        messageActivityIntent.putExtra("sendToPhone", post.ownerPhone)
-                        context.startActivity(messageActivityIntent)
-                    }
+                    .setPositiveButton("Написать"){ dialog, which ->
+                        if(currentUser?.phoneNumber == post.ownerPhone){
+                            Toast.makeText(context, "Вы не можете писать самому себе!", Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            val messageActivityIntent = Intent(context, MessageActivity::class.java)
+                            messageActivityIntent.putExtra("sendTo", post.ownerName)
+                            messageActivityIntent.putExtra("sendToPhone", post.ownerPhone)
+                            context.startActivity(messageActivityIntent)
+                        }
 
-                }
-                .show()
+                    }
+                    .show()
+            }
+            else{
+                MaterialAlertDialogBuilder(context)
+                    .setIcon(R.drawable.ic_baseline_article_24)
+                    .setTitle(post.title)
+                    .setMessage(post.text)
+                    .setPositiveButton("Закрыть"){ dialog, which ->
+                    }
+                    .show()
+            }
+
         }
 
         val storageReference = Firebase.storage.reference.child(post.imageUrl)
 
         if(currentUser?.phoneNumber == post.ownerPhone){
+            holder.editButton.isVisible = true
+            holder.editButton.setOnClickListener{
+                Post.tempContainer = post
+                val editPostIntent = Intent(context, EditPostActivity::class.java)
+                editPostIntent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                context.startActivity(editPostIntent)
+            }
             holder.deleteButton.isVisible = true
             holder.deleteButton.setOnClickListener {
                 val postRef = postsReference.child(post.id)

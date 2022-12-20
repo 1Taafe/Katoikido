@@ -1,7 +1,10 @@
 package by.taafe.katoikido
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
@@ -39,6 +42,15 @@ class MainActivity : AppCompatActivity() {
     private var context = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        val channel = NotificationChannel("1", "msg", NotificationManager.IMPORTANCE_HIGH).apply {
+            lightColor = Color.BLUE
+            enableLights(true)
+        }
+        val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        manager.createNotificationChannel(channel)
+
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         auth = Firebase.auth
@@ -48,6 +60,10 @@ class MainActivity : AppCompatActivity() {
         homeImage = findViewById(R.id.homeImageView)
         welcomeText = findViewById(R.id.welcomeText)
         chatActivityButton = findViewById(R.id.chatActivityButton)
+
+        if(auth.currentUser != null){
+            Noty.init(auth.currentUser?.phoneNumber.toString(), applicationContext)
+        }
 
         homeImage.setOnClickListener {
             if(auth.currentUser != null){

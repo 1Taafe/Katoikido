@@ -102,6 +102,15 @@ class MessageActivity : AppCompatActivity() {
 
                 messageInput.editText?.setText("")
                 chatFullReference.child(key).setValue(message)
+
+                val noty = Noty()
+                val notyRef = Firebase.database("https://katoikido-default-rtdb.europe-west1.firebasedatabase.app/")
+                    .getReference("notifications").child(sendToPhoneNumber)
+                noty.message = message.text
+                noty.phoneTo = sendToPhoneNumber
+                noty.phoneFrom = message.phone
+                noty.sender = message.sender
+                notyRef.setValue(noty)
             }
 
         }

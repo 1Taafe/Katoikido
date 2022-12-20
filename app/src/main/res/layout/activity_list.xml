@@ -89,7 +89,7 @@
         android:id="@+id/sortView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="64dp"
+        android:paddingTop="48dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
