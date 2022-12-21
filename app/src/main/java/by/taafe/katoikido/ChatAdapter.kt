@@ -61,4 +61,12 @@ class ChatAdapter(private val chats: List<Chat>, private val context: Context) :
     }
 
     override fun getItemCount() = chats.size
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
 }

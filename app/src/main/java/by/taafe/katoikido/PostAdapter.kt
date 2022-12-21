@@ -157,4 +157,12 @@ class PostAdapter(private val posts: List<Post>, private val context: Context) :
     }
 
     override fun getItemCount() = posts.size
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
 }

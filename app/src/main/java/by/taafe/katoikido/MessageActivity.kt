@@ -31,6 +31,16 @@ class MessageActivity : AppCompatActivity() {
     private val messageList = ArrayList<Message>()
     private val context : Context = this
 
+    override fun onStart() {
+        super.onStart()
+        Noty.dispose()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Noty.init(currentUser?.phoneNumber.toString(), applicationContext)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
@@ -111,6 +121,7 @@ class MessageActivity : AppCompatActivity() {
                 noty.phoneFrom = message.phone
                 noty.sender = message.sender
                 notyRef.setValue(noty)
+                notyRef.setValue(null)
             }
 
         }

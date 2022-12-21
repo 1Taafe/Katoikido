@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             val user = FirebaseAuth.getInstance().currentUser
             Toast.makeText(this, "Вход выполнен", Toast.LENGTH_SHORT).show()
+            Noty.init(auth.currentUser?.phoneNumber.toString(), applicationContext)
             if(user?.displayName.isNullOrEmpty()){
                 val editProfileIntent = Intent(this, EditProfileActivity::class.java)
                 startActivity(editProfileIntent)
@@ -115,6 +116,7 @@ class MainActivity : AppCompatActivity() {
                 .addOnCompleteListener {
                     Toast.makeText(this, "Выход выполнен", Toast.LENGTH_SHORT).show()
                     updateUI(UI.LoginState)
+                    Noty.dispose()
                 }
         }
         else{
