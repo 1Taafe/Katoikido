@@ -3,6 +3,8 @@ package by.taafe.katoikido.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.opengl.Visibility
 import android.provider.ContactsContract.Data
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +47,7 @@ class PostAdapter(private val posts: List<Post>, private val context: Context) :
         val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
         val editButton: Button = itemView.findViewById(R.id.editButton)
         val cardView: CardView = itemView.findViewById(R.id.postCard)
+        val favoriteView: ImageView = itemView.findViewById(R.id.favoriteView)
     }
 
     private val currentUser = FirebaseAuth.getInstance().currentUser
@@ -69,6 +72,10 @@ class PostAdapter(private val posts: List<Post>, private val context: Context) :
         holder.dateView.text = post.uploadDate
         holder.postOwnerNameView.text = post.ownerName
 
+        if(Post.Favorites.any { p -> p.id == post.id  }){
+            holder.favoriteView.visibility = View.VISIBLE
+        }
+
         holder.cardView.setOnLongClickListener{
             if(DatabaseHelper.putFavoritePost(post) == 1){
                 YoYo.with(Techniques.Tada)
@@ -76,21 +83,23 @@ class PostAdapter(private val posts: List<Post>, private val context: Context) :
                     .repeat(0)
                     .playOn(it);
                 Toast.makeText(context, "Добавлено в избранное", Toast.LENGTH_LONG).show()
+                holder.favoriteView.visibility = View.VISIBLE
                 if(ListActivity.Link.currentPostsMenuItem.itemId == R.id.sortFavPosts){
                     ListActivity.Link.doSearch()
                 }
             }
             else{
-                YoYo.with(Techniques.SlideInRight)
+                YoYo.with(Techniques.Wobble)
                     .duration(700)
                     .repeat(0)
                     .playOn(it);
                 Toast.makeText(context, "Удалено из избранных", Toast.LENGTH_LONG).show()
+                holder.favoriteView.visibility = View.GONE
                 if(ListActivity.Link.currentPostsMenuItem.itemId == R.id.sortFavPosts){
                     ListActivity.Link.doSearch()
                 }
             }
-
+            Post.Favorites = DatabaseHelper.getFavoritePosts()
             true
         }
 
