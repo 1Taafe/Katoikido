@@ -1,10 +1,10 @@
-package by.taafe.katoikido
+package by.taafe.katoikido.database
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import by.taafe.katoikido.classes.Post
 
 
@@ -74,13 +74,69 @@ class DatabaseHelper(context: Context?) :
         private val IMAGE_COLUMN = "imageUrl"
 
 
-        var dh: DatabaseHelper? = null
+        var databaseHelper: DatabaseHelper? = null
         var database: SQLiteDatabase? = null
 
         fun init(context: Context?) {
-            dh = DatabaseHelper(context)
-            database = dh!!.writableDatabase
+            databaseHelper = DatabaseHelper(context)
+            database = databaseHelper!!.writableDatabase
             database?.close()
+        }
+
+        fun getFavoritePosts() : ArrayList<Post>{
+            val resultList = ArrayList<Post>()
+            database = databaseHelper?.readableDatabase
+            val postCursor = database!!.rawQuery("select * from $FAVS_TABLE inner join $USERS_TABLE on $FAVS_TABLE.$PHONE_COLUMN = $USERS_TABLE.$PHONE_COLUMN", null)
+            while(postCursor.moveToNext()){
+                val post = Post()
+                post.id = postCursor.getString(0)
+                post.type = postCursor.getString(1)
+                post.title = postCursor.getString(2)
+                post.petType = postCursor.getString(3)
+                post.text = postCursor.getString(4)
+                post.uploadDate = postCursor.getString(5)
+                post.imageUrl = postCursor.getString(6)
+                post.ownerPhone = postCursor.getString(7)
+                post.ownerName = postCursor.getString(9)
+                resultList.add(post)
+            }
+            postCursor.close()
+            database!!.close()
+            return resultList
+        }
+
+        fun deleteFavoritePost(post: Post){
+            database = databaseHelper?.writableDatabase
+            database?.delete(FAVS_TABLE, "id = ?", arrayOf(post.id))
+            database?.close()
+        }
+
+        fun putFavoritePost(post: Post) : Int{
+            var isPut = 1
+            database = databaseHelper?.writableDatabase
+            var contentValues = ContentValues()
+            contentValues.put(NAME_COLUMN, post.ownerName)
+            contentValues.put(PHONE_COLUMN, post.ownerPhone)
+            if(database?.insert(USERS_TABLE, null, contentValues) == (-1).toLong()){
+                database?.update(USERS_TABLE, contentValues, "$PHONE_COLUMN = ${post.ownerPhone}", null);
+            }
+
+            contentValues = ContentValues()
+            contentValues.put(ID_COLUMN, post.id)
+            contentValues.put(TYPE_COLUMN, post.type)
+            contentValues.put(TITLE_COLUMN, post.title)
+            contentValues.put(PETTYPE_COLUMN, post.petType)
+            contentValues.put(TEXT_COLUMN, post.text)
+            contentValues.put(DATE_COLUMN, post.uploadDate)
+            contentValues.put(IMAGE_COLUMN, post.imageUrl)
+            contentValues.put(PHONE_COLUMN, post.ownerPhone)
+
+            if(database?.insert(FAVS_TABLE, null, contentValues) == (-1).toLong()){
+                database?.delete(FAVS_TABLE, "id = ?", arrayOf(post.id))
+                isPut = 0
+            }
+            database?.close()
+            return isPut
         }
     }
 }

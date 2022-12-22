@@ -33,6 +33,7 @@ class AddPostActivity : AppCompatActivity() {
     lateinit var postTypeText : AutoCompleteTextView
     lateinit var petTypeText : AutoCompleteTextView
     private lateinit var postImage : ImageView
+    private lateinit var postLoader : ImageView
     private var postImagePath = Post.undefined
     lateinit var savePostButton : Button
     private lateinit var infoText : TextView
@@ -79,6 +80,7 @@ class AddPostActivity : AppCompatActivity() {
         postImage = findViewById(R.id.postImage)
         savePostButton = findViewById(R.id.savePostButton)
         infoText = findViewById(R.id.infoText)
+        postLoader = findViewById(R.id.postLoaderView)
 
         postImage.setOnClickListener(){
             if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)){
@@ -156,7 +158,7 @@ class AddPostActivity : AppCompatActivity() {
             val stream = FileInputStream(File(postImagePath))
             var uploadTask = postImageRef.putStream(stream)
 
-            Glide.with(this).load("").error(Loader.create(this, 84f, 16f)).into(postImage)
+            Glide.with(this).load("").error(Loader.create(this, 44f, 16f)).into(postLoader)
 
             uploadTask.addOnFailureListener {
                 Toast.makeText(this, "Не удалось опубликовать объявление!", Toast.LENGTH_SHORT).show()

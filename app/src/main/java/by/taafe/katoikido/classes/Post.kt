@@ -8,6 +8,7 @@ class Post() {
     companion object{
         const val undefined = "Undefined"
         var tempContainer = Post()
+        var Favorites = ArrayList<Post>()
     }
 
     var id: String = undefined

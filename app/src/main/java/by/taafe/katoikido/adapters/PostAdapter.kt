@@ -3,6 +3,7 @@ package by.taafe.katoikido.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.provider.ContactsContract.Data
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +15,17 @@ import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import by.taafe.katoikido.EditPostActivity
+import by.taafe.katoikido.ListActivity
 import by.taafe.katoikido.MessageActivity
 import by.taafe.katoikido.classes.Post
 import by.taafe.katoikido.R
+import by.taafe.katoikido.database.DatabaseHelper
 import by.taafe.katoikido.utils.Loader
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
@@ -63,6 +68,31 @@ class PostAdapter(private val posts: List<Post>, private val context: Context) :
         holder.postTypeView.text = "Категория: " + post.type
         holder.dateView.text = post.uploadDate
         holder.postOwnerNameView.text = post.ownerName
+
+        holder.cardView.setOnLongClickListener{
+            if(DatabaseHelper.putFavoritePost(post) == 1){
+                YoYo.with(Techniques.Tada)
+                    .duration(700)
+                    .repeat(0)
+                    .playOn(it);
+                Toast.makeText(context, "Добавлено в избранное", Toast.LENGTH_LONG).show()
+                if(ListActivity.Link.currentPostsMenuItem.itemId == R.id.sortFavPosts){
+                    ListActivity.Link.doSearch()
+                }
+            }
+            else{
+                YoYo.with(Techniques.SlideInRight)
+                    .duration(700)
+                    .repeat(0)
+                    .playOn(it);
+                Toast.makeText(context, "Удалено из избранных", Toast.LENGTH_LONG).show()
+                if(ListActivity.Link.currentPostsMenuItem.itemId == R.id.sortFavPosts){
+                    ListActivity.Link.doSearch()
+                }
+            }
+
+            true
+        }
 
         holder.cardView.setOnClickListener(){
             if(currentUser != null){
@@ -120,6 +150,7 @@ class PostAdapter(private val posts: List<Post>, private val context: Context) :
                     }
                     .setPositiveButton("Удалить") { dialog, which ->
                         storageReference.delete().addOnSuccessListener {
+                            DatabaseHelper.deleteFavoritePost(post)
                             postRef.removeValue()
                             MaterialAlertDialogBuilder(context)
                                 .setTitle("Удаление")

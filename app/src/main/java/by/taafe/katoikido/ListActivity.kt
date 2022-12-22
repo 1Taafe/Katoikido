@@ -1,5 +1,6 @@
 package by.taafe.katoikido
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.taafe.katoikido.adapters.PostAdapter
 import by.taafe.katoikido.classes.Post
+import by.taafe.katoikido.database.DatabaseHelper
 import by.taafe.katoikido.utils.Loader
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -41,6 +43,12 @@ class ListActivity : AppCompatActivity() {
     lateinit var currentPostsMenuItem: MenuItem
     lateinit var currentPetsMenuItem: MenuItem
 
+    @SuppressLint("StaticFieldLeak")
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        lateinit var Link: ListActivity
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
@@ -52,7 +60,7 @@ class ListActivity : AppCompatActivity() {
         searchInput = findViewById(R.id.searchInput)
         sortView = findViewById(R.id.sortView)
         drawer = findViewById(R.id.drawerLayout)
-
+        Link = this
 
         sortView.setNavigationItemSelectedListener { menuItem ->
             //menuItem.isChecked = true
@@ -147,7 +155,13 @@ class ListActivity : AppCompatActivity() {
             R.id.sortMyPosts -> {
                 filterPostList.removeIf { post -> post.ownerPhone != currentUser?.phoneNumber}
             }
-
+            R.id.sortFavPosts -> {
+                Post.Favorites = DatabaseHelper.getFavoritePosts()
+                filterPostList.clear()
+                for (post in Post.Favorites){
+                    filterPostList.add(post)
+                }
+            }
         }
 
         when(currentPetsMenuItem.itemId){
