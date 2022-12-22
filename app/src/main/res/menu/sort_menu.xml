@@ -4,20 +4,25 @@
 
         <item
             android:id="@+id/sortTitle"
-            android:title="Группы">
+            android:title="Группы"
+            app:showAsAction="always"
+            >
             <menu>
                 <group android:id="@+id/sortGroup1">
                 <item android:id="@+id/sortAllPosts"
                     android:title="Все объявления"
                     android:checkable="true"
+                    android:icon="@drawable/ic_baseline_clear_all_24"
                     />
                 <item android:id="@+id/sortMyPosts"
                     android:title="Мои объявления"
                     android:checkable="true"
+                    android:icon="@drawable/ic_baseline_emoji_people_24"
                     />
                     <item android:id="@+id/sortFavPosts"
                         android:title="Избранное"
-                        android:checkable="true"/>
+                        android:checkable="true"
+                        android:icon="@drawable/ic_baseline_favorite_24"/>
                 </group>
             </menu>
         </item>
@@ -25,40 +30,49 @@
         <item
             android:id="@+id/sortCategoryTitle"
             android:title="Питомцы"
+            app:showAsAction="always"
             >
             <menu>
                 <group android:id="@+id/sortGroup2">
                 <item android:id="@+id/sortAllPets"
                     android:title="Все"
                     android:checkable="true"
+                    android:icon="@drawable/ic_baseline_pets_24"
                     />
                 <item android:id="@+id/sortCatPets"
                     android:title="Кот"
                     android:checkable="true"
+                    android:icon="@drawable/cat"
                     />
                 <item android:id="@+id/sortDogPets"
                     android:title="Собака"
                     android:checkable="true"
+                    android:icon="@drawable/dog"
                     />
                 <item android:id="@+id/sortFishPets"
                     android:title="Рыбка"
                     android:checkable="true"
+                    android:icon="@drawable/fish"
                     />
                 <item android:id="@+id/sortHamsterPets"
                     android:title="Хомяк"
                     android:checkable="true"
+                    android:icon="@drawable/rodent"
                     />
                 <item android:id="@+id/sortParrotPets"
                     android:title="Попугай"
                     android:checkable="true"
+                    android:icon="@drawable/bird"
                     />
                 <item android:id="@+id/sortCapybaraPets"
                     android:title="Капибара"
                     android:checkable="true"
+                    android:icon="@drawable/pig_variant"
                     />
                 <item android:id="@+id/sortOtherPets"
                     android:title="Другие"
                     android:checkable="true"
+                    android:icon="@drawable/ic_baseline_catching_pokemon_24"
                     />
                 </group>
             </menu>
