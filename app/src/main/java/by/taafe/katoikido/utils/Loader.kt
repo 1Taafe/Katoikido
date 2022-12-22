@@ -1,4 +1,4 @@
-package by.taafe.katoikido
+package by.taafe.katoikido.utils
 
 import android.content.Context
 import android.graphics.Color

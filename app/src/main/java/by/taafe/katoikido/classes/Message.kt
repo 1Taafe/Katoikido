@@ -1,4 +1,4 @@
-package by.taafe.katoikido
+package by.taafe.katoikido.classes
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -9,11 +9,11 @@ class Message {
         const val undefined = "Undefined"
     }
 
-    var id: String = Message.undefined
-    var sender: String = Message.undefined
-    var text: String = Message.undefined
+    var id: String = undefined
+    var sender: String = undefined
+    var text: String = undefined
     var date: String = getCurrentDate()
-    var phone: String = Message.undefined
+    var phone: String = undefined
 
     private fun getCurrentDate() : String{
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")

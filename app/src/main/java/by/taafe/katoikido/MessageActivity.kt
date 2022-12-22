@@ -3,12 +3,18 @@ package by.taafe.katoikido
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import by.taafe.katoikido.adapters.MessageAdapter
+import by.taafe.katoikido.classes.Chat
+import by.taafe.katoikido.classes.Message
+import by.taafe.katoikido.utils.Loader
+import by.taafe.katoikido.utils.Noty
 import com.bumptech.glide.Glide
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
@@ -33,12 +39,20 @@ class MessageActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Noty.dispose()
+        if(sendToPhoneNumber.isNotEmpty()){
+            Noty.notDisplayedPhone = sendToPhoneNumber
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         Noty.init(currentUser?.phoneNumber.toString(), applicationContext)
+        Noty.notDisplayedPhone = "undef"
+    }
+
+    override fun onPause(){
+        super.onPause()
+        Noty.notDisplayedPhone = "undef"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +60,10 @@ class MessageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_message)
 
         messageRecyclerView = findViewById(R.id.messageRecyclerView)
-        messageRecyclerView.layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this)
+        layoutManager.stackFromEnd = true;
+        messageRecyclerView.layoutManager = layoutManager
+
         messageInput = findViewById(R.id.messageInput)
         listLoader = findViewById(R.id.listLoader)
 
@@ -56,6 +73,7 @@ class MessageActivity : AppCompatActivity() {
         if(arguments != null){
             sendToName = arguments.getString("sendTo").toString()
             sendToPhoneNumber = arguments.getString("sendToPhone").toString()
+            Noty.notDisplayedPhone = sendToPhoneNumber
         }
 
         this@MessageActivity.title = sendToName
@@ -78,7 +96,7 @@ class MessageActivity : AppCompatActivity() {
                 val adapter = MessageAdapter(messageList, context)
                 messageRecyclerView.adapter = adapter
                 listLoader.visibility = View.GONE
-                messageRecyclerView.smoothScrollToPosition(messageRecyclerView.adapter!!.itemCount);
+                messageRecyclerView.smoothScrollToPosition(messageRecyclerView.adapter!!.itemCount)
 
             }
 
@@ -94,7 +112,6 @@ class MessageActivity : AppCompatActivity() {
         chat.members[currentUser.phoneNumber.toString()] = currentUser.displayName.toString()
         chat.members[sendToPhoneNumber] = sendToName
         chatInfoReference.setValue(chat)
-
         
         messageInput.setEndIconOnClickListener {
 
@@ -120,10 +137,12 @@ class MessageActivity : AppCompatActivity() {
                 noty.phoneTo = sendToPhoneNumber
                 noty.phoneFrom = message.phone
                 noty.sender = message.sender
+                noty.sendTo = sendToName
                 notyRef.setValue(noty)
                 notyRef.setValue(null)
             }
 
         }
     }
+
 }

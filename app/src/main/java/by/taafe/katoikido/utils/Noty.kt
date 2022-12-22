@@ -1,11 +1,14 @@
-package by.taafe.katoikido
+package by.taafe.katoikido.utils
 
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import by.taafe.katoikido.MessageActivity
+import by.taafe.katoikido.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -22,15 +25,20 @@ class Noty {
         var appContext: Context? = null
         var notyReference : DatabaseReference? = null
         var phoneNumberId : Long = 0
+        var notDisplayedPhone = ""
 
         private val notyListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Get Post object and use the values to update the UI
                 val noty = dataSnapshot.getValue<Noty>()
-                if(noty != null){
-                    //Toast.makeText(appContext, noty.message, Toast.LENGTH_LONG).show()
-
+                if(noty != null && notDisplayedPhone != noty.phoneFrom){
+                    phoneNumberId = noty.phoneFrom.replace("+", "").toLong()
                     val alarmSound: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                    val intent = Intent(appContext, MessageActivity::class.java)
+                    intent.putExtra("sendTo", noty.sendTo)
+                    intent.putExtra("sendToPhone", noty.phoneTo)
+
+                    val pendingIntent = PendingIntent.getActivity(appContext, 0, intent, 0)
 
                     val builder = NotificationCompat.Builder(appContext!!, "1")
                         .setSmallIcon(R.drawable.ic_baseline_catching_pokemon_24)
@@ -40,11 +48,10 @@ class Noty {
                         .setAutoCancel(true)
                         .setSound(alarmSound)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setContentIntent(pendingIntent)
 
                     val notificationManager = NotificationManagerCompat.from(appContext!!)
                     notificationManager.notify(phoneNumberId.toInt(), builder.build())
-
-                    //notyReference?.setValue(null)
                 }
             }
 
@@ -64,13 +71,13 @@ class Noty {
             notyReference = notyRef
             appContext = context
             notyReference!!.addValueEventListener(notyListener)
-            phoneNumberId = phoneNumber.replace("+", "").toLong()
         }
     }
 
     var id: String = undefined
     var message: String = undefined
     var sender: String = undefined
+    var sendTo: String = undefined
     var phoneFrom: String = undefined
     var phoneTo: String = undefined
 }

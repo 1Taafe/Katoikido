@@ -13,6 +13,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import by.taafe.katoikido.utils.Loader
+import by.taafe.katoikido.utils.Noty
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -50,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         manager.createNotificationChannel(channel)
 
+        DatabaseHelper.init(applicationContext)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

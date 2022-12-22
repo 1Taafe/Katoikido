@@ -1,4 +1,4 @@
-package by.taafe.katoikido
+package by.taafe.katoikido.classes
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

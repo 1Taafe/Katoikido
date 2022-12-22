@@ -1,4 +1,4 @@
-package by.taafe.katoikido
+package by.taafe.katoikido.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,6 +12,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import by.taafe.katoikido.classes.Message
+import by.taafe.katoikido.R
 import com.google.android.material.divider.MaterialDivider
 import com.google.firebase.auth.FirebaseAuth
 

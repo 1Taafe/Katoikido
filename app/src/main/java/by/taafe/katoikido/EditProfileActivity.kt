@@ -2,31 +2,16 @@ package by.taafe.katoikido
 
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
-import android.graphics.Color
-import android.graphics.Paint
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import by.taafe.katoikido.utils.Loader
 import com.bumptech.glide.Glide
-import com.cloudinary.Transformation
-import com.cloudinary.android.MediaManager
-import com.cloudinary.android.callback.ErrorInfo
-import com.cloudinary.android.callback.UploadCallback
-import com.firebase.ui.auth.data.model.User
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.PhoneAuthCredential
-import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.auth.PhoneAuthProvider.getCredential
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 
 class EditProfileActivity : AppCompatActivity() {

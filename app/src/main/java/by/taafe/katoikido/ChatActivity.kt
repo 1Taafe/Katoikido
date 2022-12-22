@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import by.taafe.katoikido.adapters.ChatAdapter
+import by.taafe.katoikido.classes.Chat
+import by.taafe.katoikido.utils.Loader
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -22,6 +25,7 @@ class ChatActivity : AppCompatActivity() {
     private val chatList = ArrayList<Chat>()
     private val currentUser = FirebaseAuth.getInstance().currentUser!!
     lateinit var listLoader: ImageView
+    lateinit var chatStatus: TextView
     private val context : Context = this
     private lateinit var chatRecyclerView : RecyclerView
 
@@ -31,6 +35,7 @@ class ChatActivity : AppCompatActivity() {
 
         listLoader = findViewById(R.id.listLoader)
         chatRecyclerView = findViewById(R.id.chatRecyclerView)
+        chatStatus = findViewById(R.id.chatStatus)
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
 
         this@ChatActivity.title = "Чаты"
@@ -52,24 +57,18 @@ class ChatActivity : AppCompatActivity() {
                 val adapter = ChatAdapter(chatList, context)
                 chatRecyclerView.adapter = adapter
                 listLoader.visibility = View.GONE
+                if(chatList.size > 0){
+                    chatStatus.visibility = View.GONE
+                }
+                else{
+                    chatStatus.visibility = View.VISIBLE
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                //Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
-                // ...
+                //
             }
         })
-
-
-
-//        val chat = Chat()
-//        chat.id = 750894906677L.toString()
-//        chat.members.put("+375447127778", "Dmitro")
-//        chat.members.put("+375447778899", "text")
-//        chatList.add(chat)
-//        val adapter = ChatAdapter(chatList, context)
-//        chatRecyclerView.adapter = adapter
 
     }
 }

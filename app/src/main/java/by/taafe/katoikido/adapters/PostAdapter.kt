@@ -1,4 +1,4 @@
-package by.taafe.katoikido
+package by.taafe.katoikido.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,6 +13,11 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import by.taafe.katoikido.EditPostActivity
+import by.taafe.katoikido.MessageActivity
+import by.taafe.katoikido.classes.Post
+import by.taafe.katoikido.R
+import by.taafe.katoikido.utils.Loader
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
