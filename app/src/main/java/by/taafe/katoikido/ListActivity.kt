@@ -140,6 +140,8 @@ class ListActivity : AppCompatActivity() {
 
     fun doSearch(){
 
+        Post.Favorites = DatabaseHelper.getFavoritePosts()
+
         val inputText = searchInput.editText?.text.toString()
         val filterPostList = ArrayList<Post>()
         for (post in postList){
@@ -156,7 +158,6 @@ class ListActivity : AppCompatActivity() {
                 filterPostList.removeIf { post -> post.ownerPhone != currentUser?.phoneNumber}
             }
             R.id.sortFavPosts -> {
-                Post.Favorites = DatabaseHelper.getFavoritePosts()
                 filterPostList.clear()
                 for (post in Post.Favorites){
                     filterPostList.add(post)
