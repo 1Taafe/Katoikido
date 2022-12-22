@@ -35,8 +35,8 @@ class Noty {
                     phoneNumberId = noty.phoneFrom.replace("+", "").toLong()
                     val alarmSound: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
                     val intent = Intent(appContext, MessageActivity::class.java)
-                    intent.putExtra("sendTo", noty.sendTo)
-                    intent.putExtra("sendToPhone", noty.phoneTo)
+                    intent.putExtra("sendTo", noty.sender)
+                    intent.putExtra("sendToPhone", noty.phoneFrom)
 
                     val pendingIntent = PendingIntent.getActivity(appContext, 0, intent, 0)
 

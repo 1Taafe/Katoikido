@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:text="Чаты не найдены :("
         android:textSize="24sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/chatRecyclerView"
         app:layout_constraintStart_toStartOf="@+id/chatRecyclerView"
