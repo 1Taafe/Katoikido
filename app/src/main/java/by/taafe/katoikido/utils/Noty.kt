@@ -38,7 +38,7 @@ class Noty {
                     intent.putExtra("sendTo", noty.sender)
                     intent.putExtra("sendToPhone", noty.phoneFrom)
 
-                    val pendingIntent = PendingIntent.getActivity(appContext, 0, intent, 0)
+                    val pendingIntent = PendingIntent.getActivity(appContext, 0, intent, PendingIntent.FLAG_MUTABLE)
 
                     val builder = NotificationCompat.Builder(appContext!!, "1")
                         .setSmallIcon(R.drawable.ic_baseline_catching_pokemon_24)
