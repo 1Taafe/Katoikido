@@ -118,7 +118,7 @@ class DatabaseHelper(context: Context?) :
             contentValues.put(NAME_COLUMN, post.ownerName)
             contentValues.put(PHONE_COLUMN, post.ownerPhone)
             if(database?.insert(USERS_TABLE, null, contentValues) == (-1).toLong()){
-                database?.update(USERS_TABLE, contentValues, "$PHONE_COLUMN = ${post.ownerPhone}", null);
+                database?.update(USERS_TABLE, contentValues, "$PHONE_COLUMN = ?", arrayOf(post.ownerPhone));
             }
 
             contentValues = ContentValues()

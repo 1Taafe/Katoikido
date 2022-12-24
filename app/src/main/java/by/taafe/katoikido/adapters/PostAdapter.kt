@@ -3,9 +3,6 @@ package by.taafe.katoikido.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.opengl.Visibility
-import android.provider.ContactsContract.Data
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -100,6 +97,11 @@ class PostAdapter(private val posts: List<Post>, private val context: Context) :
                 }
             }
             Post.Favorites = DatabaseHelper.getFavoritePosts()
+            Post.serializeToJson(context.filesDir, Post.Favorites)
+            Post.serializeToXml(context, Post.Favorites)
+            Post.deserializeFromJson(context.filesDir)
+            Post.deserializeFromXml(context.filesDir)
+            //Toast.makeText(context, Post.deserializeFromXml(context.filesDir).size.toString(), Toast.LENGTH_SHORT).show()
             true
         }
 
