@@ -57,7 +57,17 @@ class PostProvider : ContentProvider() {
     }
 
     override fun getType(uri: Uri): String? {
-        TODO("Not yet implemented")
+        return when(sURIMatcher.match(uri)){
+            FAVS -> {
+                FAVS_TABLE
+            }
+            USERS -> {
+                USERS_TABLE
+            }
+            else -> {
+                throw java.lang.IllegalArgumentException("Unknown uri $uri")
+            }
+        }
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
