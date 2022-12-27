@@ -14,7 +14,6 @@ class PostProvider : ContentProvider() {
     private var helper: DatabaseHelper? = null
 
     private val FAVS = 1
-    //private val FAVS_ID = 2
     private val USERS = 3
 
     private val sURIMatcher = UriMatcher(UriMatcher.NO_MATCH)
@@ -43,7 +42,18 @@ class PostProvider : ContentProvider() {
         selectionArgs: Array<out String>?,
         sortOrder: String?
     ): Cursor? {
-        TODO("Not yet implemented")
+        val uriType = sURIMatcher.match(uri)
+        val database = helper!!.readableDatabase
+        val postCursor: Cursor?
+        when(uriType){
+            FAVS -> {
+                postCursor = database!!.rawQuery("select * from ${DatabaseHelper.FAVS_TABLE} inner join ${DatabaseHelper.USERS_TABLE} on ${DatabaseHelper.FAVS_TABLE}.${DatabaseHelper.PHONE_COLUMN} = ${DatabaseHelper.USERS_TABLE}.${DatabaseHelper.PHONE_COLUMN}", null)
+            }
+            else -> {
+                throw IllegalArgumentException("Unknown uri")
+            }
+        }
+        return postCursor
     }
 
     override fun getType(uri: Uri): String? {

@@ -22,27 +22,8 @@ class DatabaseHelper(context: Context?) :
         db.execSQL(usersTableQuery)
         db.execSQL(favsTableQuery)
 
-//        //examdate and sort
-//        val indx_Progresses_ExamDate =
-//            "CREATE INDEX IF NOT EXISTS indx_Progress_ExamDate ON PROGRESS (EXAMDATE)"
-//        val indx_Progress_mark =
-//            "CREATE INDEX IF NOT EXISTS indx_Progress_mark ON PROGRESS (MARK DESC)"
-//
-//        //foreign keys
-//        val indx_Student_idgroup =
-//            "CREATE INDEX IF NOT EXISTS indx_Student_idgroup on STUDENT (IDGROUP)"
-//        val indx_Group_idfaculty =
-//            "CREATE INDEX IF NOT EXISTS indx_Group_idfaculty on GROUP_ (IDFACULTY)"
-//        val indx_Progress_idstudent =
-//            "CREATE INDEX IF NOT EXISTS indx_Progress_idstudent on PROGRESS (IDSTUDENT)"
-//        val indx_Progress_idsubject =
-//            "CREATE INDEX IF NOT EXISTS indx_Progress_idsubject on PROGRESS (IDSUBJECT)"
-//        db.execSQL(indx_Student_idgroup)
-//        db.execSQL(indx_Progresses_ExamDate)
-//        db.execSQL(indx_Progress_mark)
-//        db.execSQL(indx_Group_idfaculty)
-//        db.execSQL(indx_Progress_idstudent)
-//        db.execSQL(indx_Progress_idsubject)
+        val phoneIndex = "CREATE INDEX IF NOT EXISTS favs_phone_index on $FAVS_TABLE ($PHONE_COLUMN)"
+        db.execSQL(phoneIndex)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -56,24 +37,26 @@ class DatabaseHelper(context: Context?) :
     }
 
     companion object {
-        private val DB_NAME = "katoikido.db"
-        private val DB_VERSION = 1
+        private const val DB_NAME = "katoikido.db"
+        private const val DB_VERSION = 1
 
-        private val USERS_TABLE = "users"
-        private val PHONE_COLUMN = "phone"
-        private val NAME_COLUMN = "name"
+        const val USERS_TABLE = "users"
+        const val PHONE_COLUMN = "phone"
+        private const val NAME_COLUMN = "name"
 
 
-        private val FAVS_TABLE = "favs"
-        private val ID_COLUMN = "id"
-        private val TYPE_COLUMN = "type"
-        private val TITLE_COLUMN = "title"
-        private val PETTYPE_COLUMN = "petType"
-        private val TEXT_COLUMN = "text"
+        const val FAVS_TABLE = "favs"
+        private const val ID_COLUMN = "id"
+        private const val TYPE_COLUMN = "type"
+        private const val TITLE_COLUMN = "title"
+        private const val PETTYPE_COLUMN = "petType"
+        private const val TEXT_COLUMN = "text"
 //        private val PHONE_COLUMN = "phone"
-        private val DATE_COLUMN = "uploadDate"
-        private val IMAGE_COLUMN = "imageUrl"
+        private const val DATE_COLUMN = "uploadDate"
+        private const val IMAGE_COLUMN = "imageUrl"
 
+        private val favsUri: Uri = Uri.parse("content://by.katoikido.provider/favs")
+        private val usersUri: Uri = Uri.parse("content://by.katoikido.provider/users")
 
         @SuppressLint("StaticFieldLeak")
         var databaseHelper: DatabaseHelper? = null
@@ -90,8 +73,7 @@ class DatabaseHelper(context: Context?) :
 
         fun getFavoritePosts() : ArrayList<Post>{
             val resultList = ArrayList<Post>()
-            database = databaseHelper?.readableDatabase
-            val postCursor = database!!.rawQuery("select * from $FAVS_TABLE inner join $USERS_TABLE on $FAVS_TABLE.$PHONE_COLUMN = $USERS_TABLE.$PHONE_COLUMN", null)
+            val postCursor = context?.contentResolver?.query(favsUri, null, null, null)!!
             while(postCursor.moveToNext()){
                 val post = Post()
                 post.id = postCursor.getString(0)
@@ -106,25 +88,21 @@ class DatabaseHelper(context: Context?) :
                 resultList.add(post)
             }
             postCursor.close()
-            database!!.close()
             return resultList
         }
 
         fun deleteFavoritePost(post: Post){
-            database = databaseHelper?.writableDatabase
-            database?.delete(FAVS_TABLE, "id = ?", arrayOf(post.id))
-            database?.close()
+            context?.contentResolver?.delete(favsUri, "id = ?", arrayOf(post.id))
         }
 
         fun putFavoritePost(post: Post) : Int{
             var isPut = 1
-            database = databaseHelper?.writableDatabase
             var contentValues = ContentValues()
             contentValues.put(NAME_COLUMN, post.ownerName)
             contentValues.put(PHONE_COLUMN, post.ownerPhone)
-            val usersUri: Uri = Uri.parse("content://by.katoikido.provider/users")
+
             if(context!!.contentResolver.insert(usersUri, contentValues) == null){
-                database?.update(USERS_TABLE, contentValues, "$PHONE_COLUMN = ?", arrayOf(post.ownerPhone))
+                context?.contentResolver?.update(usersUri, contentValues, "$PHONE_COLUMN = ?", arrayOf(post.ownerPhone))
             }
 
             contentValues = ContentValues()
@@ -137,13 +115,11 @@ class DatabaseHelper(context: Context?) :
             contentValues.put(IMAGE_COLUMN, post.imageUrl)
             contentValues.put(PHONE_COLUMN, post.ownerPhone)
 
-            val favsUri: Uri = Uri.parse("content://by.katoikido.provider/favs")
 
             if(context!!.contentResolver.insert(favsUri, contentValues) == null){
-                database?.delete(FAVS_TABLE, "id = ?", arrayOf(post.id))
+                context?.contentResolver?.delete(favsUri, "id = ?", arrayOf(post.id))
                 isPut = 0
             }
-            database?.close()
             return isPut
         }
     }
