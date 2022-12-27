@@ -53,19 +53,29 @@ class PostProvider : ContentProvider() {
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
         val uriType = sURIMatcher.match(uri)
         val database = helper!!.writableDatabase
+        var isInserted = false
         when(uriType){
             FAVS -> {
-                database.insert(FAVS_TABLE, null, values)
+                if(database.insert(FAVS_TABLE, null, values) != (-1).toLong()){
+                    isInserted = true
+                }
             }
             USERS -> {
-                database.insert(USERS_TABLE, null, values)
+                if(database.insert(USERS_TABLE, null, values) != (-1).toLong()){
+                    isInserted = true
+                }
             }
             else -> {
                 throw java.lang.IllegalArgumentException("Unknown uri $uri")
             }
         }
         context?.contentResolver?.notifyChange(uri, null)
-        return null
+        return if(!isInserted){
+            null
+        } else{
+            uri
+        }
+
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {

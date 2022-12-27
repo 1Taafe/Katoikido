@@ -1,10 +1,11 @@
 package by.taafe.katoikido.database
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
+import android.net.Uri
 import by.taafe.katoikido.classes.Post
 
 
@@ -74,12 +75,16 @@ class DatabaseHelper(context: Context?) :
         private val IMAGE_COLUMN = "imageUrl"
 
 
+        @SuppressLint("StaticFieldLeak")
         var databaseHelper: DatabaseHelper? = null
         var database: SQLiteDatabase? = null
+        @SuppressLint("StaticFieldLeak")
+        var context: Context? = null
 
         fun init(context: Context?) {
             databaseHelper = DatabaseHelper(context)
             database = databaseHelper!!.writableDatabase
+            this.context = context
             database?.close()
         }
 
@@ -117,8 +122,9 @@ class DatabaseHelper(context: Context?) :
             var contentValues = ContentValues()
             contentValues.put(NAME_COLUMN, post.ownerName)
             contentValues.put(PHONE_COLUMN, post.ownerPhone)
-            if(database?.insert(USERS_TABLE, null, contentValues) == (-1).toLong()){
-                database?.update(USERS_TABLE, contentValues, "$PHONE_COLUMN = ?", arrayOf(post.ownerPhone));
+            val usersUri: Uri = Uri.parse("content://by.katoikido.provider/users")
+            if(context!!.contentResolver.insert(usersUri, contentValues) == null){
+                database?.update(USERS_TABLE, contentValues, "$PHONE_COLUMN = ?", arrayOf(post.ownerPhone))
             }
 
             contentValues = ContentValues()
@@ -131,7 +137,9 @@ class DatabaseHelper(context: Context?) :
             contentValues.put(IMAGE_COLUMN, post.imageUrl)
             contentValues.put(PHONE_COLUMN, post.ownerPhone)
 
-            if(database?.insert(FAVS_TABLE, null, contentValues) == (-1).toLong()){
+            val favsUri: Uri = Uri.parse("content://by.katoikido.provider/favs")
+
+            if(context!!.contentResolver.insert(favsUri, contentValues) == null){
                 database?.delete(FAVS_TABLE, "id = ?", arrayOf(post.id))
                 isPut = 0
             }
