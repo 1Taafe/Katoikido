@@ -84,6 +84,13 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <provider
+            android:name=".database.PostProvider"
+            android:authorities="by.katoikido.provider"
+            android:enabled="true"
+            android:exported="false"
+            android:grantUriPermissions="true" />
     </application>
 
 </manifest>
