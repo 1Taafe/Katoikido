@@ -10,6 +10,7 @@ class Message {
     }
 
     var id: String = undefined
+    var chatId: String = undefined
     var sender: String = undefined
     var text: String = undefined
     var date: String = getCurrentDate()

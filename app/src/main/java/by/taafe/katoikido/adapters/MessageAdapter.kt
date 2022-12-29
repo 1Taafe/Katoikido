@@ -5,22 +5,30 @@ import android.content.Context
 import android.graphics.Color
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.widget.LinearLayout
+import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
+import androidx.annotation.MenuRes
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import by.taafe.katoikido.classes.Message
 import by.taafe.katoikido.R
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.divider.MaterialDivider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class MessageAdapter(private val messages: List<Message>, private val context: Context) :
     RecyclerView.Adapter<MessageAdapter.PostViewHolder>() {
 
     val currentUser = FirebaseAuth.getInstance().currentUser!!
+    val chatsReference = Firebase.database("https://katoikido-default-rtdb.europe-west1.firebasedatabase.app/").reference.child("chats")
 
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val displaName: TextView = itemView.findViewById(R.id.displayName)
@@ -72,6 +80,39 @@ class MessageAdapter(private val messages: List<Message>, private val context: C
             holder.messageCard.layoutParams = params
         }
 
+        holder.messageCard.setOnLongClickListener{
+            showMenu(it, R.menu.message_menu, message)
+            true
+        }
+
+    }
+
+    private fun showMenu(v: View, @MenuRes menuRes: Int, message: Message) {
+        val popup = PopupMenu(context, v)
+        popup.menuInflater.inflate(menuRes, popup.menu)
+        popup.setOnMenuItemClickListener { menuItem: MenuItem ->
+            when(menuItem.itemId){
+                R.id.removeMessage -> {
+                    MaterialAlertDialogBuilder(context)
+                        .setIcon(R.drawable.ic_baseline_article_24)
+                        .setTitle("Удаление")
+                        .setMessage("Вы действительно хотите удалить сообщение без возможности восстановления")
+                        .setNeutralButton("Отмена"){ dialog, which ->
+                        }
+                        .setPositiveButton("Удалить"){ dialog, which ->
+                            val messageRef = chatsReference.child(message.chatId).child(message.id)
+                            messageRef.setValue(null)
+                        }
+                        .show()
+                }
+            }
+            true
+        }
+        popup.setOnDismissListener {
+
+        }
+
+        popup.show()
     }
 
     override fun getItemCount() = messages.size

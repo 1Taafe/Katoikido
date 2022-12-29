@@ -126,6 +126,7 @@ class MessageActivity : AppCompatActivity() {
                 message.sender = currentUser.displayName.toString()
                 message.text = messageInput.editText?.text.toString()
                 message.phone = currentUser.phoneNumber.toString()
+                message.chatId = chatPartReference
 
                 messageInput.editText?.setText("")
                 chatFullReference.child(key).setValue(message)
